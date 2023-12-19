@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Горизонтальний слайдер з класами</title>
+    <style>
+        .slider-container {
+            width: 80%;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            flex: 0 0 100%;
+        }
+
+        .slider-controls {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide"><img src="image1.jpg" alt="Slide 1"></div>
+            <div class="slide"><img src="image2.jpg" alt="Slide 2"></div>
+            <div class="slide"><img src="image3.jpg" alt="Slide 3"></div>
+        </div>
+    </div>
+
+    <div class="slider-controls">
+        <button id="prevBtn">Назад</button>
+        <button id="nextBtn">Вперед</button>
+        <button id="addBtn">Додати слайд</button>
+    </div>
+
+    <script>
+        class Slider {
+            constructor() {
+                this.slider = document.querySelector('.slider');
+                this.slides = document.querySelectorAll('.slide');
+                this.prevButton = document.getElementById('prevBtn');
+                this.nextButton = document.getElementById('nextBtn');
+                this.addButton = document.getElementById('addBtn');
+                this.slideIndex = 0;
+
+                this.prevButton.addEventListener('click', () => this.prevSlide());
+                this.nextButton.addEventListener('click', () => this.nextSlide());
+                this.addButton.addEventListener('click', () => this.addSlide());
+            }
+
+            showSlides() {
+                this.slider.style.transform = `translateX(-${this.slideIndex * 100}%)`;
+            }
+
+            nextSlide() {
+                if (this.slideIndex < this.slides.length - 1) {
+                    this.slideIndex++;
+                } else {
+                    this.slideIndex = 0;
+                }
+                this.showSlides();
+            }
+
+            prevSlide() {
+                if (this.slideIndex > 0) {
+                    this.slideIndex--;
+                } else {
+                    this.slideIndex = this.slides.length - 1;
+                }
+                this.showSlides();
+            }
+
+            addSlide() {
+                const newSlide = document.createElement('div');
+                newSlide.className = 'slide';
+                newSlide.innerHTML = `<img src="image4.jpg" alt="New Slide ${this.slides.length + 1}">`;
+                this.slider.appendChild(newSlide);
+                this.slides = document.querySelectorAll('.slide');
+            }
+        }
+
+        const mySlider = new Slider();
+        mySlider.showSlides();
+    </script>
+
+</body>
+
+</html>
